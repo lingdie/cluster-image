@@ -18,8 +18,7 @@ for i, line in enumerate(lines):
     # If the line start with chartLocationURL
     if line.lstrip().startswith("chartLocationURL:"):
         # Replace chartLocationURL to oci registry
-        line = re.sub(r'https://jihulab.com/api/v4/projects/85949/packages/helm/stable/charts',
-                      oci_registry, line)
+        line = re.sub(r'https://jihulab.com/api/v4/projects/85949/packages/helm/stable/charts', oci_registry, line)
 
         # Remove version and tgz info in the chartLocationURL, and add extra helm install options
         splits = line.rsplit('-', 1)

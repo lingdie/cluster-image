@@ -1,3 +1,6 @@
 FROM scratch
-COPY . .
-CMD ["bash kb.sh"]
+
+COPY charts charts
+COPY scripts scripts
+
+CMD ["bash scripts/init.sh"]
