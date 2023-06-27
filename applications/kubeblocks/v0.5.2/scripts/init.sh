@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-bash scripts/init_charts.sh
+bash scripts/upload-charts.sh
 
 export ZOT_PORT=$(kubectl get --namespace zot -o jsonpath="{.spec.ports[0].port}" services zot)
 export ZOT_IP=$(kubectl get --namespace zot -o jsonpath="{.spec.clusterIP}" services zot)
