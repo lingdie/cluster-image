@@ -11,4 +11,4 @@ helm repo add minio https://operator.min.io/
 helm pull minio/operator -d charts --untar
 
 git clone https://github.com/labring/laf.git
-cp -r laf/deploy/build charts/laf-server
+cp -r laf/build/charts charts/laf-server
