@@ -10,5 +10,5 @@ helm pull apisix/apisix -d charts/ --untar
 helm repo add minio https://operator.min.io/
 helm pull minio/operator -d charts --untar
 
-git clone git@github.com:labring/laf.git
+git clone https://github.com/labring/laf.git
 cp -r laf/deploy/build charts/laf-server
