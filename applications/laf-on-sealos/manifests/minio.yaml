@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-cluster-env-configuration
+  namespace: laf-minio
+  labels:
+    v1.min.io/tenant: minio-cluster
+type: Opaque
+data:
+  config.env: |
+    ZXhwb3J0IE1JTklPX1JPT1RfUEFTU1dPUkQ9IkdSTFZBRERXWFZobGR3eEJnOTBPWndFZDFXRm9iTERnIgpleHBvcnQgTUlOSU9fU1RPUkFHRV9DTEFTU19TVEFOREFSRD0iRUM6MiIKZXhwb3J0IE1JTklPX0JST1dTRVI9Im9uIgpleHBvcnQgTUlOSU9fUk9PVF9VU0VSPSIgbUJkZGF2bXJyMFlsWlZZZiIK
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-cluster-secret
+  namespace: laf-minio
+  labels:
+    v1.min.io/tenant: minio-cluster
+immutable: true
+type: Opaque
+data:
+  accesskey: ''
+  secretkey: ''
+---
+apiVersion: minio.min.io/v2
+kind: Tenant
+metadata:
+  name: minio-cluster
+  namespace: laf-minio
+spec:
+  configuration:
+    name: minio-cluster-env-configuration
+  credsSecret:
+    name: minio-cluster-secret
+  exposeServices:
+    console: true
+    minio: true
+  features:
+    domains:
+      minio:
+        - http://oss.laf.dev
+  imagePullSecret: {}
+  mountPath: /export
+  pools:
+    - affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: laf.dev/node.type
+                    operator: In
+                    values:
+                      - storage
+      name: pool-0
+      resources: {}
+      servers: 4
+      volumeClaimTemplate:
+        metadata:
+          name: data
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: '10737418240'
+          storageClassName: openebs-lvm-minio
+        status: {}
+      volumesPerServer: 1
+  requestAutoCert: false
+  users:
+    - name: minio-cluster-user-0
+scheduler:
+  name: ''

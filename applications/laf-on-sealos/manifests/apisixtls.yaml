@@ -1,0 +1,13 @@
+apiVersion: apisix.apache.org/v2
+kind: ApisixTls
+metadata:
+  name: example-tls
+  namespace: laf-system
+spec:
+  hosts:
+    - '*.{{ .lafDomain }}'
+    - '*.oss.{{ .lafDomain }}'
+    - '*.site.{{ .lafDomain }}'
+  secret:
+    name: laf-wildcard-cert
+    namespace: laf-system
